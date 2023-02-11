@@ -1,0 +1,93 @@
+.login {
+    background-color: #012b58;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-heading {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    position: relative;
+    top: -80px;
+}
+
+.form-heading::before{
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    color: #49a0fd;
+    border-right: 2px solid #49a0fd;
+    overflow: hidden;
+    animation-name: text;
+    animation-timing-function: ease-in-out;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes text{
+    0%,10%,100%{
+        width: 0%;
+    }
+    70%,90%{
+        width: 50%;
+    }
+}
+
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: linear-gradient(125deg,#bedbfa,#79baff);
+    /* backdrop-filter: blur(2px); */
+    border: none;
+    width: 50%;
+    height: 70%;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.318);
+    border-radius: 15px;
+}
+
+.form-container #user, #enter {
+    margin: 25px;
+}
+
+.form-container #user {
+    border: none;
+    border-bottom: 2px solid #53a5fc;
+    font-size: 24px;
+    background: none;
+}
+
+.form-container #user:focus {
+    outline: none;
+}
+
+.form-container #user::placeholder {
+    text-align: center;
+}
+
+.form-container #enter {
+    background-color: #f4f9ff;
+    border: none;
+    font-size: 24px;
+    padding: 5px 10px;
+    box-shadow: 0 5px 6px rgba(128, 128, 128, 0.345);
+    border-radius: 15px;
+    transition: .3s all;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.form-container #enter:focus {
+    outline: none;
+}
+
+.form-container #enter:hover {
+    background-color: #79baff;
+    cursor: pointer;
+    color: white;
+}
