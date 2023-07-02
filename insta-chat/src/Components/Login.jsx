@@ -1,15 +1,19 @@
 import React from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./login.css";
 
 const Login = () => {
   const [user, setUser] = useState("");
+  const navigate = useNavigate();
   const senduser = () => {
+    console.log(user);
+    console.log("send user");
     if (user === "") {
       alert("Enter Your Name!");
     } else {
-      localStorage.setItem("userName", user);
+      localStorage.setItem("user", user);
+      navigate("/chat");
     }
   };
   return (
@@ -25,13 +29,8 @@ const Login = () => {
             id="user"
             onChange={(e) => setUser(e.target.value)}
             autoComplete="off"
-            
           />
-          <Link to={user === "" ? `/` : `/chat`}>
-            <button id="enter" onClick={senduser}>
-              Enter Chat!
-            </button>
-          </Link>
+          <button onClick={senduser} id="enter">Enter</button>
         </div>
       </div>
     </>
@@ -39,4 +38,3 @@ const Login = () => {
 };
 
 export default Login;
-// export { user };

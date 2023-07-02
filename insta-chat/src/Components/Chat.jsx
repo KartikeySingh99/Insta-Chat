@@ -1,7 +1,7 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Message from "./Message";
 import socketIO from "socket.io-client";
+import { Link } from "react-router-dom";
 // import { user } from "./Login";
 
 let socket;
@@ -10,7 +10,8 @@ const Chat = () => {
   const [id, setID] = useState(""); //*useState hook to set user id
   const [messages, setMessage] = useState([]); //*useState hook to set messages
 
-  const user = localStorage.getItem("userName");
+  const user = localStorage.getItem("user");
+  const text = useRef(null);
 
   // * --------------------Notification API--------------------
   // let permission = Notification.permission;
@@ -30,7 +31,7 @@ const Chat = () => {
   //     }
   //   });
   // }
-  // function showNotification() {
+  // function showNotification(user) {
   //   //  if(document.visibilityState === "visible") {
   //   //      return;
   //   //  }
@@ -48,19 +49,19 @@ const Chat = () => {
 
   //* function to retrieve the message
   const sendMessage = () => {
-    let message = document.getElementById("text").value;
-    console.log(message);
+    let message = text.current.value;
+
     if (message === "") {
       alert("Type Some Text!");
     } else {
       socket.emit("message", { message, id }); //*emitting message event to send message to server
-      document.getElementById("text").value = "";
+      text.current.value = "";
     }
   };
 
   const redirect = () => {
     socket.emit("disconnect");
-    alert(user + " " + "has disconnected")
+    alert(`${user} has disconnected`)
     socket.off();
   };
 
@@ -87,12 +88,14 @@ const Chat = () => {
 
     //*defining event to trigger when user leaves the page
     socket.on("leave", (data) => {
+      console.log("leave");
       // setMessage([...messages,data]);
       // console.log(data.user, data.message);
       alert(`${data.user} ${data.message}`);
     });
     return () => {
-      socket.emit("disconnect");
+      // socket.emit("disconnect");
+      socket.disconnect();
       socket.off();
     };
   }, []);
@@ -101,11 +104,8 @@ const Chat = () => {
     //*defining event for receiving messages
     socket.on("sendMessage", (data) => {
       setMessage([...messages, data]);
-      // console.log(data.user, data.message, data.id);
+      // showNotification(data.user);
     });
-    return () => {
-      socket.off();
-    };
   }, [messages]);
 
   return (
@@ -115,9 +115,9 @@ const Chat = () => {
           <div className="header">
             <div className="title">Insta Chat</div>
             <div className="close">
-              <a href="/" onClick={redirect}>
+              <Link to="/" onClick={redirect}>
                 <i className="bi bi-x"></i>
-              </a>
+              </Link>
             </div>
           </div>
           <div className="chat-area">
@@ -134,7 +134,7 @@ const Chat = () => {
             <input
               type="text"
               placeholder="Type Your Message..."
-              id="text"
+              ref={text}
               onKeyPress={(e) => (e.key === "Enter" ? sendMessage() : null)}
             />
             <button id="btn" onClick={sendMessage}>

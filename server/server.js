@@ -17,7 +17,7 @@ io.on('connection', socket => {
     socket.on('new-user-joined', (name) => {
         users[socket.id] = name;
         console.log(name + ' ' + 'joined ' + socket.id);
-        socket.broadcast.emit('user-joined', { user: "Admin:", message: `${name} has Joined!` });
+        socket.broadcast.emit('user-joined', { user: "Instachat:", message: `${name} has Joined!` });
     });
 
     socket.on('message', ({ message, id }) => {
@@ -32,6 +32,7 @@ io.on('connection', socket => {
     socket.on('disconnect', () => {
         socket.broadcast.emit('leave', { user: "admin:", message: `${users[socket.id]} has left the chat!` });
         console.log("user disconnected!");
+        users.pop();
     });
 });
 server.listen(port, () => {
