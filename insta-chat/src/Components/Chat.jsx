@@ -10,7 +10,6 @@ const Chat = () => {
   const [id, setID] = useState(""); //*useState hook to set user id
   const [messages, setMessage] = useState([]); //*useState hook to set messages
 
-  const user = localStorage.getItem("user");
   const text = useRef(null);
 
   // * --------------------Notification API--------------------
@@ -61,11 +60,13 @@ const Chat = () => {
 
   const redirect = () => {
     socket.emit("disconnect");
-    alert(`${user} has disconnected`)
+    // alert(`${user} has disconnected`)
     socket.off();
   };
 
   useEffect(() => {
+    const user = localStorage.getItem("user");
+
     socket = socketIO(EndPoint, {
       transports: ["websocket"],
     });
