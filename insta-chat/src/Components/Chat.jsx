@@ -5,7 +5,8 @@ import { Link } from "react-router-dom";
 // import { user } from "./Login";
 
 let socket;
-const EndPoint = "http://localhost:8000";
+// const EndPoint = "http://localhost:8000";
+const EndPoint = "https://instachat-u3gn.onrender.com";
 const Chat = () => {
   const [id, setID] = useState(""); //*useState hook to set user id
   const [messages, setMessage] = useState([]); //*useState hook to set messages
